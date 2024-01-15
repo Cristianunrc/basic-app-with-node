@@ -1,1 +1,29 @@
-<h1>Success</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <%- include('partials/head') %>
+</head>
+<body>
+  <%- include('partials/navigation') %>
+  
+  <div class="container">
+    <div class="col-md-6 offset-md-3 text-center">
+      <% if (successMessage) { %>
+        <h2 class="text-success mb-4 fs-1">Succes!</h2>
+        <p class="mb-4 fs-3">Your message was sent successfully.</p>
+      <% } else if (errorMessage) { %>
+        <h2 class="text-danger mb-4 fs-1">Error!</h2>
+        <p class="mb-4 fs-3"><%= errorMessage %></p>
+      <% } %>
+
+      <a href="/contact" class="btn btn-primary btn-block fs-3">
+        Go Back
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>
