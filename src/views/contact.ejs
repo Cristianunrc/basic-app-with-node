@@ -15,14 +15,12 @@
         <h3>Contact me</h3>
       </div>
       <div class="card-body text-start">
-        <form>
-          <div class="mb-3">
-            <label for="email">Email</label>
-            <input type="text" placeholder="Email" class="form-control">
+        <form action="/send-email" method="POST">
+          <div class="form-group mb-3">
+            <input type="text" name="email" placeholder="Email" class="form-control">
           </div>
 
-          <div class="mb-3">
-            <label for="message">Message:</label>
+          <div class="form-group mb-3">
             <textarea name="message" rows="3" class="form-control" placeholder="Write a message"></textarea>
           </div>
           
