@@ -1,5 +1,8 @@
 import { Router } from 'express'
 import nodemailer from 'nodemailer'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const router = Router()
 
@@ -9,14 +12,12 @@ router.get('/about', (req, res) => res.render('about', { title: 'About' }))
 
 router.get('/contact', (req, res) => res.render('contact', { title: 'Contact' }))
 
-// router.get('/success', (req, res) => res.render('success', { title: 'Response' }))
-
 router.post('/send-email', async (req, res) => {
   
   const { email, message } = req.body;
 
   if (!email || !message) {
-    const response = res.status(400).send('success', {errorMessage: 'Email and message are required'})
+    const response = res.status(400).send({errorMessage: 'Email and message are required'})
     return response
   }
 
@@ -25,14 +26,14 @@ router.post('/send-email', async (req, res) => {
     port: 465,
     secure: true,
     auth: {
-      user: 'cristiankhan23@gmail.com',
-      pass: 'xpdd jwja gjkg plnr'
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
     }
   })
 
   const info = await transporter.sendMail({
-    from: 'cristiankhan23@gmail.com',
-    to: 'cristiankhan23@gmail.com',
+    from: process.env.EMAIL_USER,
+    to: process.env.EMAIL_USER,
     subject: 'New message of NodeJS app',
     text: `The user with email ${email} says:\n\n${message}`
   })
