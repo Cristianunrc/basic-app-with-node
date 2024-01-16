@@ -12,6 +12,8 @@ router.get('/about', (req, res) => res.render('about', { title: 'About' }))
 
 router.get('/contact', (req, res) => res.render('contact', { title: 'Contact' }))
 
+router.get('/success', (req, res) => res.render('success', {title: 'Response', successMessage: true }))
+
 router.post('/send-email', async (req, res) => {
   
   const { email, message } = req.body;
@@ -38,7 +40,7 @@ router.post('/send-email', async (req, res) => {
     text: `The user with email ${email} says:\n\n${message}`
   })
   
-  res.render('success', {title: 'Response', successMessage: true})
+  res.redirect('/success')
 })
 
 export default router
