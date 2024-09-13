@@ -9,7 +9,7 @@ const router = Router()
 // endpoints 
 router.get('/', (req, res) => res.render('index', { title: 'Home' }))
 
-router.get('/about', (req, res) => res.render('about', { title: 'About' }))
+router.get('/projects', (req, res) => res.render('projects', { title: 'Projects' }))
 
 router.get('/contact', (req, res) => res.render('contact', { title: 'Contact' }))
 
@@ -20,7 +20,7 @@ router.post('/send-email', async (req, res) => {
   const { email, message } = req.body;
 
   if (!email || !message) {
-    const response = res.status(400).send({errorMessage: 'Email and message are required'})
+    const response = res.status(400).send({errorMessage: 'Email or message are required'})
     return response
   }
 
