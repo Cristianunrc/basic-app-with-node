@@ -48,7 +48,7 @@ router.post('/send-email', emailLimiter, async (req, res) => {
   
     const info = await transporter.sendMail({
       from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
+      to: process.env.EMAIL_MANAGER,
       subject: 'New message from your web site',
       text: `The user with email ${email} says:\n\n${message}`
     })
