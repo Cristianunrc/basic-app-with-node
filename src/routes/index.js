@@ -10,10 +10,10 @@ const router = Router()
 
 const emailLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 5,
+  max: 2,
   message: 'Too many email requests, please try again after a few minutes'
 })
- 
+
 router.get('/', (req, res) => res.render('index', { title: 'Home' }))
 
 router.get('/projects', (req, res) => res.render('projects', { title: 'Projects' }))
@@ -27,12 +27,18 @@ router.post('/send-email', emailLimiter, async (req, res) => {
   const validEmail = validator.isEmail(email)
 
   if (!email || !validEmail) {
-    res.status(400).send({errorMessage: 'Invalid email address'})
+    return res.status(400).render('contact', {
+      title: 'Contact',
+      errorMessage: 'Email is required or invalid email address'
+    })
   }
 
   const sanitizedMessage = validator.escape(message)
   if (!sanitizedMessage || sanitizedMessage.trim() == "") {
-    return res.status(400).send({errorMessage: 'Message is required'})
+    return res.status(400).render('contact', {
+      title: 'Contact',
+      errorMessage: 'Message is required'
+    })
   }
 
   try {
@@ -45,7 +51,7 @@ router.post('/send-email', emailLimiter, async (req, res) => {
         pass: process.env.EMAIL_PASS
       }
     })
-  
+
     const info = await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_MANAGER,
@@ -54,7 +60,10 @@ router.post('/send-email', emailLimiter, async (req, res) => {
     })
     res.redirect('/success')
   } catch (error) {
-    res.status(500).send({errorMessage: 'An error ocurred while sending the email'})
+    return res.status(500).render('contact', {
+      title: 'Contact',
+      errorMessage: 'An error ocurred while sending the email. Please try again'
+    })
   }
 })
 
