@@ -1,12 +1,19 @@
 import { Router } from 'express'
 import nodemailer from 'nodemailer'
 import dotenv from 'dotenv'
+import validator from 'validator'
+import rateLimit from 'express-rate-limit'
 
 dotenv.config()
 
 const router = Router()
 
-// endpoints 
+const emailLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: 'Too many email requests, please try again after a few minutes'
+})
+ 
 router.get('/', (req, res) => res.render('index', { title: 'Home' }))
 
 router.get('/projects', (req, res) => res.render('projects', { title: 'Projects' }))
@@ -15,33 +22,40 @@ router.get('/contact', (req, res) => res.render('contact', { title: 'Contact' })
 
 router.get('/success', (req, res) => res.render('success', {title: 'Response', successMessage: true }))
 
-router.post('/send-email', async (req, res) => {
-  
+router.post('/send-email', emailLimiter, async (req, res) => {  
   const { email, message } = req.body;
+  const validEmail = validator.isEmail(email)
 
-  if (!email || !message) {
-    const response = res.status(400).send({errorMessage: 'Email or message are required'})
-    return response
+  if (!email || !validEmail) {
+    res.status(400).send({errorMessage: 'Invalid email address'})
   }
 
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
-  })
+  const sanitizedMessage = validator.escape(message)
+  if (!sanitizedMessage || sanitizedMessage.trim() == "") {
+    return res.status(400).send({errorMessage: 'Message is required'})
+  }
 
-  const info = await transporter.sendMail({
-    from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_USER,
-    subject: 'New message of NodeJS app',
-    text: `The user with email ${email} says:\n\n${message}`
-  })
+  try {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    })
   
-  res.redirect('/success')
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,
+      subject: 'New message from your web site',
+      text: `The user with email ${email} says:\n\n${message}`
+    })
+    res.redirect('/success')
+  } catch (error) {
+    res.status(500).send({errorMessage: 'An error ocurred while sending the email'})
+  }
 })
 
 export default router
