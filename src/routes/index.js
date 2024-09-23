@@ -18,7 +18,7 @@ router.get('/', (req, res) => res.render('index', { title: 'Home' }))
 
 router.get('/projects', (req, res) => res.render('projects', { title: 'Projects' }))
 
-router.get('/contact', (req, res) => res.render('contact', { title: 'Contact' }))
+router.get('/contact', (req, res) => res.render('contact', { title: 'Contact', siteKey: process.env.RECAPTCHA_SITE_KEY }))
 
 router.get('/success', (req, res) => res.render('success', {title: 'Response', successMessage: true }))
 
