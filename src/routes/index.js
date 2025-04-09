@@ -22,6 +22,8 @@ router.get('/contact', (req, res) => res.render('contact', { title: 'Contact', s
 
 router.get('/success', (req, res) => res.render('success', {title: 'Response', successMessage: true }))
 
+router.get('/tech-stack', (req, res) => res.render('tech-stack', {title: 'Technologies'}))
+
 router.post('/send-email', emailLimiter, async (req, res) => {  
   const { email, message } = req.body;
   const validEmail = validator.isEmail(email)
