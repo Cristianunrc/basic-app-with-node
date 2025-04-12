@@ -12,7 +12,7 @@
 <body>
   <%- include('partials/navigation') %>
   <div class="container vh-100 d-flex justify-content-center align-items-center">
-    <div class="card bg-dark text-white text-center">
+    <div class="card text-white text-center" style="background: linear-gradient(to right, #232526, #414345);">
       <div class="card-header">
         <h3>Contact me</h3>
       </div>
@@ -39,20 +39,24 @@
       </div>
     </div>
   </div>
-  <div class="contact-info position-asbolute start-0 bottom-0 ms-5 mb-5">
-    <p><i class="fa-solid fa-location-dot me-2"></i>Río Cuarto, Córdoba, Argentina</p>
-    <p><i class="fa-solid fa-phone me-2"></i>+5493534296631</p>
-    <p>
-      <a href="https://github.com/Cristianunrc" target="_blank" class="text-white text-decoration-none">
-        <i class="fa-brands fa-github me-2"></i> GitHub
-      </a>
-    </p>
-    <p>
-      <a href="https://www.linkedin.com/in/cristian-herrera-7653b421b/" target="_blank" class="text-white text-decoration-none">
-        <i class="fa-brands fa-linkedin me-2"></i> LinkedIn
-      </a>
-    </p>
+
+  <div class="card text-white" style="background: linear-gradient(to right, #232526, #414345);">
+    <div class="contact-info position-asbolute start-0 bottom-0 ms-5 mb-3 mt-4">
+      <p><i class="fa-solid fa-location-dot me-2"></i>Río Cuarto, Córdoba, Argentina</p>
+      <p><i class="fa-solid fa-phone me-2"></i>+5493534296631</p>
+      <p>
+        <a href="https://github.com/Cristianunrc" target="_blank" class="text-white text-decoration-none">
+          <i class="fa-brands fa-github me-2"></i> GitHub
+        </a>
+      </p>
+      <p>
+        <a href="https://www.linkedin.com/in/cristian-herrera-7653b421b/" target="_blank" class="text-white text-decoration-none">
+          <i class="fa-brands fa-linkedin me-2"></i> LinkedIn
+        </a>
+      </p>
+    </div>
   </div>
+
   <script>
     function enabledRecaptcha() {
       document.getElementById("submit-button").disabled = false
