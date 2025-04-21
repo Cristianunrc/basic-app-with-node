@@ -4,3 +4,10 @@ body {
   background: -webkit-linear-gradient(to right, #243B55, #141E30);
   background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
 }
+
+/* Style for items in tech-stack */
+.list-group-item:hover {
+  cursor: pointer;
+  background-color: #d3d3d3;
+  color: #060322;
+}
